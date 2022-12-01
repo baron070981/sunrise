@@ -1,0 +1,24 @@
+
+
+#: include mainlayout.kv
+#: include infoscreen.kv
+
+
+<Manager>:
+    id: _manager
+    mainlayout:mainlayout
+    
+    MainLayout:
+        id:mainlayout
+        manager: _manager
+    
+    InfoScreen:
+        id:infoscreen
+        manager:_manager
+
+
+
+
+
+
+
