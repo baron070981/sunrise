@@ -1,27 +1,21 @@
 from kivymd.app import MDApp
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ObjectProperty
+from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty
 from kivy.properties import ListProperty
 from kivymd.uix.picker import MDDatePicker
-from kivymd.uix.label import MDLabel
-from kivy.uix.label import Label
 from kivy.clock import Clock
-import pandas as pd
 from datetime import datetime
-import time
 
 
 import sunrisedata
 
-import rich
-from rich import inspect
 
 
 
 class MainLayout(Screen):
-    
+    '''
+    Главный экран приложения
+    '''
     
     param_list = ['dlh', 'sunrise', 'sunset']
     idx = ['current', 'dlh', 'sunrise', 'sunset']
@@ -31,46 +25,48 @@ class MainLayout(Screen):
     tinfo = StringProperty()
     dataframe = None
     
+    month_names_ru = {
+        1:'января', 2:'февраля', 3:'марта',
+        4:'апреля', 5:'мая', 6:'июня',
+        7:'июля', 8:'августа', 9:'сентября',
+        10:'октября', 11:'ноября', 12:'декабря',
+    }
+    
     
     def __init__(self, **kwargs):
         super(MainLayout, self).__init__(**kwargs)
-        MainLayout.dinfo, MainLayout.tinfo = self.__get_today()
     
     
     def on_pre_enter(self):
+        # запуск часов при создании экрана
         self.c = Clock.schedule_interval(self.update, 1)
-        # c.cancel()
     
     
     def on_pre_leave(self):
+        # остановка часов при переходе на другой экран
         self.c.cancel()
     
     
     def update(self, *args):
+        # обновление часов и даты в виджете
         d = datetime.today()
+        day = d.day
+        month = d.month
+        year = d.year
+        day = str(day) if day >= 10 else '0'+str(day)
+        month = MainLayout.month_names_ru.get(month, month)
         h = str(d.hour) if d.hour >= 10 else '0'+str(d.hour)
         m = str(d.minute)  if d.minute >= 10 else '0'+str(d.minute)
         s = str(d.second)  if d.second >= 10 else '0'+str(d.second)
         
+        dmy = f'{day} {month} {year}'
         dt = f'{h}:{m}:{s}'
         MDApp.get_running_app().root.ids.mainlayout.ids.time_info.text = dt
-        
-    
-    
-    def __get_today(self):
-        month_names = {
-            1:'января', 2:'февраля', 3:'марта',
-            4:'апреля', 5:'мая', 6:'июня',
-            7:'июля', 8:'августа', 9:'сентября',
-            10:'октября', 11:'ноября', 12:'декабря',
-        }
-        td = datetime.today()
-        d_text = f'{td.day}  {month_names[td.month]}  {td.year}'
-        t_text = f'{td.hour} : {td.minute}'
-        return d_text, t_text
+        MDApp.get_running_app().root.ids.mainlayout.ids.date_info.text = dmy
     
     
     def on_save(self, instance, value, date_range):
+        # получение данных на выбранную дату в виджете календаря
         month, day = value.month, value.day
         current, data = sunrisedata.get_similar_day(day, month, MainLayout.param_list[0])
         alldata = current.append(data)
@@ -95,6 +91,7 @@ class MainLayout(Screen):
     
     
     def today_data(self):
+        # получение данных на текущую дату
         today = datetime.today()
         day = today.day
         month = today.month
@@ -107,11 +104,7 @@ class MainLayout(Screen):
         MainLayout.dataframe = alldata
         MDApp.get_running_app().root.current = 'infoscreen'
     
-    
-    def new_txt(self):
-        MDApp.get_running_app().root.ids.time_info.text = "new text"
-    
-    
+ 
     
     
     

@@ -1,11 +1,8 @@
 from kivymd.app import MDApp
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.properties import ObjectProperty
+from kivy.uix.screenmanager import Screen
 from kivy.properties import StringProperty
 from kivy.properties import ListProperty
 
-from kivyui import mainlayout
 
 
 
@@ -19,16 +16,16 @@ class InfoScreen(Screen):
     def on_pre_enter(self):
         
         df = MDApp.get_running_app().root.ids.mainlayout.dataframe
-        print(df)
+        # данные на выбранную дату
         c_d = self.str_align(str(df.loc["current"]["day"]))
         c_m = self.str_align(str(df.loc["current"]["month"]))
-        
+        # данные на дату похожую по долготе дня
         dlh_d = self.str_align(str(df.loc["dlh"]["day"]))
         dlh_m = self.str_align(str(df.loc["dlh"]["month"]))
-        
+        # данные на дату похожую по времени восхода
         sr_d = self.str_align(str(df.loc["sunrise"]["day"]))
         sr_m = self.str_align(str(df.loc["sunrise"]["month"]))
-        
+        # данные на дату похожую по времени заката
         ss_d = self.str_align(str(df.loc["sunset"]["day"]))
         ss_m = self.str_align(str(df.loc["sunset"]["month"]))
         
@@ -56,10 +53,12 @@ class InfoScreen(Screen):
     
     
     def step_back(self):
+        # обработка нажатия кнопки назад
         MDApp.get_running_app().root.current = 'mainlayout'
     
     
     def str_align(self, string):
+        # добавяет к строке 0 если длинна строки равна 1
         return string if len(string) > 1 else '0'+string
     
     
