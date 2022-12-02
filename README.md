@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-![sunrise image](./icon.png)
-
-=======
-# :sunrise_over_mountains:
->>>>>>> 920bf75493e5fa8a9444960e8e9e28af02505e53
+![sunrise](https://github.com/baron070981/sunrise/blob/master/src/images/icon.png)
 
 # sunrise
 search for similar days in different semesters
