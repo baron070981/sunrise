@@ -137,7 +137,7 @@ dmypy.json
 *.txt
 .tmp
 
-
+.idea
 
 
 
