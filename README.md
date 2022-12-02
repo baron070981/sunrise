@@ -1,3 +1,6 @@
+![sunrise image](./icon.png)
+
+
 # sunrise
 search for similar days in different semesters
 
