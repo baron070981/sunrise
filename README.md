@@ -1,6 +1,3 @@
-
-![sunrise](/home/baron/Coding/MyPython/sunrise/src/images/icon.png)
-
 # sunrise
 search for similar days in different semesters
 
